@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Order | Bethany's Pie Shop</title>
+    <link rel="stylesheet" href="site.css" type="text/css" />
+    <script type="text/javascript" src="scripts/jquery-3.6.0.js"></script>
+    <style>
+      @media only screen and (min-width: 768px) {
+        article {
+          width: 350px;
+        }
+      }
+
+      .pie {
+        margin-bottom: 20px;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      .input-group input,
+      .input-group textarea,
+      .input-group select {
+        padding: 10px;
+        border: solid 1px #999;
+        border-radius: 2px;
+        width: 100%;
+      }
+
+      label {
+        font-weight: 600;
+      }
+
+      input[type="reset"] {
+        background: transparent;
+        border: 0;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      input[type="submit"] {
+        border: solid 1px #999;
+        border-radius: 3px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="pies.html">Pies</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <aside><img src="images/logo.png" alt="Bethany's Pie Shop" /></aside>
+
+      <article>
+        <!-- ADD CONTENT HERE -->
+        <h1>Order</h1>
+
+        <div class="pie">
+          <img src="" />
+          <div class="columns">
+            <div class="title"></div>
+            <div class="price"></div>
+          </div>
+          <p class="desc"></p>
+        </div>
+
+      </article>
+    </main>
+    <footer>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="pies.html">Pies</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </footer>
+    <script>
+      $(() => {
+        const order = localStorage.getItem("order");
+        const pieOrder = JSON.parse(order);
+
+        if(order){
+          const pie = $(".pie");
+          const title = pie.find('.title');
+          const price = pie.find('.price');
+          const desc = pie.find('.desc');
+          const img = pie.find('img');
+
+          title.text(pieOrder.title);
+          price.text(pieOrder.price);
+          desc.text(pieOrder.desc);
+          img.attr("src", `images/${pieOrder.id}.png`);
+          img.attr("alt", pieOrder.title);
+        }
+
+     
+        
+
+      });
+
+    </script>
+  </body>
+</html>
