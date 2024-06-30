@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Pies | Bethany's Pie Shop</title>
+    <link rel="stylesheet" href="site.css" type="text/css" />
+    <script type="text/javascript" src="scripts/jquery-3.6.0.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="pies.html">Pies</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <aside>
+        <img src="images/logo.png" alt="Bethany's Pie Shop" />
+      </aside>
+
+      <article>
+        <h1>Pies</h1>
+
+        <section class="columns-desktop" id="pies">
+          <!-- Generated HTML goes here -->
+        </section>
+
+      </article>
+    </main>
+
+    <footer>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="pies.html">Pies</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </footer>
+  
+  </body>
+  <script>
+
+    $(() => {
+
+      let $pies = $("#pies");
+
+      let getTemplate = (item) => `
+      <div class="pie">
+        <img src="images/${item.id}.png" alt="${item.description}" />
+        <div class="columns">
+          <div class="title">${item.title}</div>
+          <div class="price">$${item.price}</div>
+        </div>
+        <p class="desc">${item.description}</p>
+        <button data-id="${item.id}">Order</button>
+      </div>`;
+
+      $.get("/data/pies.json")
+        .done((data) => {
+
+          console.log(`Fetch result: ${ data.length } pies loaded`);
+
+          data.forEach((item) => {
+            $pies.append(getTemplate(item));
+          });
+
+          const $orderButtons = $("button[data-id]");
+
+          $orderButtons.click((e) => {
+
+            const $button = $(e.currentTarget);
+            const $parent = $button.parent();
+
+            const order = {
+              id: $button.data("id"),
+              title: $parent.find(".title").text(),
+              price: $parent.find(".price").text(),
+              desc: $parent.find(".desc").text()
+            };
+
+            localStorage.setItem("order", JSON.stringify(order));
+
+            const url = window.location.href.replace("pies.html", "order.html");
+            window.location.href = url;
+
+          });
+
+        });
+    });
+  </script>
+</html>
